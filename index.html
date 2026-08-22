@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedi-Parent Alert - ระบบคัดกรองภาวะวิกฤตในผู้ป่วยเด็ก</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Prompt -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Prompt', sans-serif; }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .emergency-pulse { animation: pulse-ring 1.5s infinite ease-in-out; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col items-center justify-center p-4">
+
+  <!-- กล่องแสดงผลหลัก -->
+  <main class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 min-h-[580px] flex flex-col">
+    
+    <!-- 1. หน้าแรก: กรอกหมายเลขโรงพยาบาล (HN) -->
+    <section id="screen-landing" class="p-6 flex-1 flex flex-col justify-between">
+      <div class="text-center mt-4">
+        <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl shadow-inner">
+          👶
+        </div>
+        <h1 class="text-2xl font-bold text-slate-800">Pedi-Parent Alert</h1>
+        <p class="text-xs text-slate-500 mt-1">คัดกรองภาวะวิกฤตด่วนเพื่อความปลอดภัยของลูกน้อย</p>
+      </div>
+
+      <div class="my-6">
+        <label for="hn-input" class="block text-sm font-medium text-slate-700 mb-2">
+          กรุณากรอกหมายเลขโรงพยาบาล (HN)
+        </label>
+        <input 
+          type="tel" 
+          id="hn-input" 
+          placeholder="เช่น 1234567" 
+          class="w-full px-4 py-3 text-xl text-center font-bold tracking-widest border-2 border-slate-200 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition duration-200"
+        >
+        <p id="hn-error" class="text-rose-500 text-xs mt-2 text-center hidden">กรุณากรอกหมายเลขโรงพยาบาลก่อนเริ่มคัดกรอง</p>
+      </div>
+
+      <button 
+        onclick="startScreening()" 
+        class="w-full py-4 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-semibold rounded-2xl shadow-lg shadow-blue-200 transition duration-200 text-lg">
+        เริ่มคัดกรองอาการ
+      </button>
+    </section>
+
+    <!-- 2. ด่านที่ 1: ตรวจจับสัญญาณวิกฤต (Red Flag) -->
+    <section id="screen-stage1" class="p-6 flex-1 flex-col justify-between hidden">
+      <div>
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+          <span class="text-xs font-semibold px-2.5 py-1 bg-red-100 text-red-700 rounded-full">ด่านที่ 1 จาก 2</span>
+          <span class="text-xs font-bold text-slate-400" id="display-hn-s1"></span>
+        </div>
+        
+        <h2 class="text-lg font-bold text-slate-800 mb-3">ตอนนี้น้องมีอาการเหล่านี้หรือไม่?</h2>
+
+        <div class="space-y-3 bg-red-50/60 p-4 rounded-2xl border border-red-100 text-slate-700 text-sm">
+          <div class="flex items-start gap-2.5">
+            <span class="text-red-500 font-bold">1.</span>
+            <span><strong>ซึม / ปลุกไม่ตื่น</strong> ริมฝีปากคล้ำ ตัวลายซีด</span>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-red-500 font-bold">2.</span>
+            <span><strong>หายใจเหนื่อยหอบ</strong> ซี่โครงบุ๋ม หายใจมีเสียงหวีด</span>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-red-500 font-bold">3.</span>
+            <span><strong>อ่อนเพลีย ตาลึกโบ๋</strong> ปัสสาวะไม่ออกนานเกิน 8 ชั่วโมง</span>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-slate-100 rounded-2xl flex flex-col items-center justify-center border border-dashed border-slate-300">
+          <span class="text-2xl mb-1">🎬</span>
+          <p class="text-xs text-slate-500 font-medium">[พื้นที่แสดงวิดีโอ/ภาพการ์ตูนเคลื่อนไหวเปรียบเทียบ]</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 mt-6">
+        <button 
+          onclick="handleStage1(false)" 
+          class="py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-2xl transition">
+          ไม่มีอาการ
+        </button>
+        <button 
+          onclick="handleStage1(true)" 
+          class="py-3.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-2xl shadow-lg shadow-red-200 transition">
+          มีข้อใดข้อหนึ่ง
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. ด่านที่ 2: ตรวจจับโรคติดเชื้อแยกกัก (Orange Flag) -->
+    <section id="screen-stage2" class="p-6 flex-1 flex-col justify-between hidden">
+      <div>
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+          <span class="text-xs font-semibold px-2.5 py-1 bg-amber-100 text-amber-700 rounded-full">ด่านที่ 2 จาก 2</span>
+          <span class="text-xs font-bold text-slate-400" id="display-hn-s2"></span>
+        </div>
+
+        <h2 class="text-lg font-bold text-slate-800 mb-3">น้องมีอาการหรือประวัติเหล่านี้หรือไม่?</h2>
+
+        <div class="space-y-3 bg-amber-50/60 p-4 rounded-2xl border border-amber-100 text-slate-700 text-sm">
+          <div class="flex items-start gap-2.5">
+            <span class="text-amber-600 font-bold">1.</span>
+            <span><strong>มีไข้ ร่วมกับผื่นตุ่มแดง ตุ่มน้ำใส ตุ่มหนอง</strong> ขึ้นตามตัว/ใบหน้า หรือมีคนใกล้ตัวเป็นโรคสุกใส</span>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-amber-600 font-bold">2.</span>
+            <span><strong>มีไข้สูง ร่วมกับผื่นแดง ตาแดง</strong> หรือสงสัยโรคหัด</span>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="text-amber-600 font-bold">3.</span>
+            <span><strong>ไอนานมากกว่า 2 สัปดาห์</strong> หรือมีคนในบ้านกำลังรักษาวัณโรค</span>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-slate-100 rounded-2xl flex flex-col items-center justify-center border border-dashed border-slate-300">
+          <span class="text-2xl mb-1">🖼️</span>
+          <p class="text-xs text-slate-500 font-medium">[พื้นที่แสดงภาพการ์ตูนระยะของผื่นแต่ละโรค]</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 mt-6">
+        <button 
+          onclick="handleStage2(false)" 
+          class="py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-2xl transition">
+          ไม่มีอาการ
+        </button>
+        <button 
+          onclick="handleStage2(true)" 
+          class="py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-2xl shadow-lg shadow-amber-200 transition">
+          มีข้อใดข้อหนึ่ง
+        </button>
+      </div>
+    </section>
+
+    <!-- 4. จอสีแดง (Red Alert) -->
+    <section id="screen-red" class="p-6 flex-1 flex-col justify-between text-center bg-rose-600 text-white hidden">
+      <div class="my-auto flex flex-col items-center">
+        <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-6 emergency-pulse">
+          <span class="text-5xl">🚨</span>
+        </div>
+        <div class="bg-black/15 px-3 py-1 rounded-full text-xs font-semibold mb-4 tracking-wider" id="display-hn-red"></div>
+        <h2 class="text-2xl font-bold leading-snug px-2">
+          กรุณาพาน้องพบเจ้าหน้าที่จุดที่ 1 เพื่อวัดสัญญาณชีพทันที
+        </h2>
+      </div>
+      <button onclick="resetApp()" class="w-full py-3 bg-white/20 hover:bg-white/30 text-white text-sm font-medium rounded-xl transition">
+        กลับสู่หน้าหลัก
+      </button>
+    </section>
+
+    <!-- 5. จอสีส้ม (Orange Isolation) -->
+    <section id="screen-orange" class="p-6 flex-1 flex-col justify-between text-center bg-amber-500 text-white hidden">
+      <div class="my-auto flex flex-col items-center">
+        <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-6">
+          <span class="text-5xl">😷</span>
+        </div>
+        <div class="bg-black/15 px-3 py-1 rounded-full text-xs font-semibold mb-4 tracking-wider" id="display-hn-orange"></div>
+        <h2 class="text-2xl font-bold leading-snug px-2">
+          กรุณาสวมหน้ากากอนามัยทันที และพาน้องแจ้งเจ้าหน้าที่จุดที่ 1
+        </h2>
+      </div>
+      <button onclick="resetApp()" class="w-full py-3 bg-white/20 hover:bg-white/30 text-white text-sm font-medium rounded-xl transition">
+        กลับสู่หน้าหลัก
+      </button>
+    </section>
+
+    <!-- 6. จอสีเขียว (Green Routine) -->
+    <section id="screen-green" class="p-6 flex-1 flex-col justify-between hidden">
+      <div class="my-auto text-center">
+        <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl shadow-inner">
+          ✓
+        </div>
+        <div class="inline-block bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-bold mb-4 tracking-wider" id="display-hn-green"></div>
+        
+        <h2 class="text-xl font-bold text-slate-800 mb-6">
+          ท่านสามารถนั่งรอเรียกวัดสัญญาณชีพตามลำดับคิว
+        </h2>
+
+        <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl text-left">
+          <p class="text-xs font-semibold text-slate-500 mb-1">ข้อแนะนำด้านความปลอดภัย</p>
+          <p class="text-sm text-slate-700 font-medium">
+            หากน้องมีอาการเปลี่ยนแปลงหรือแย่ลงระหว่างนั่งรอ สามารถแจ้งเจ้าหน้าที่ได้ทันที
+          </p>
+        </div>
+      </div>
+
+      <button onclick="resetApp()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-2xl transition mt-4">
+        เสร็จสิ้น
+      </button>
+    </section>
+
+  </main>
+
+  <script>
+    let patientHN = "";
+
+    function showScreen(screenId) {
+      const screens = ['screen-landing', 'screen-stage1', 'screen-stage2', 'screen-red', 'screen-orange', 'screen-green'];
+      screens.forEach(id => {
+        const el = document.getElementById(id);
+        if (id === screenId) {
+          el.classList.remove('hidden');
+          el.classList.add('flex');
+        } else {
+          el.classList.add('hidden');
+          el.classList.remove('flex');
+        }
+      });
+    }
+
+    function playBeepSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+      } catch (e) {
+        console.log("Audio requires user interaction first");
+      }
+    }
+
+    function startScreening() {
+      const input = document.getElementById('hn-input');
+      const errorMsg = document.getElementById('hn-error');
+      patientHN = input.value.trim();
+
+      if (!patientHN) {
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+      errorMsg.classList.add('hidden');
+
+      ['display-hn-s1', 'display-hn-s2', 'display-hn-red', 'display-hn-orange', 'display-hn-green'].forEach(id => {
+        document.getElementById(id).innerText = `HN: ${patientHN}`;
+      });
+
+      showScreen('screen-stage1');
+    }
+
+    function handleStage1(hasRedFlag) {
+      if (hasRedFlag) {
+        playBeepSound();
+        showScreen('screen-red');
+      } else {
+        showScreen('screen-stage2');
+      }
+    }
+
+    function handleStage2(hasOrangeFlag) {
+      if (hasOrangeFlag) {
+        showScreen('screen-orange');
+      } else {
+        showScreen('screen-green');
+      }
+    }
+
+    function resetApp() {
+      document.getElementById('hn-input').value = '';
+      patientHN = '';
+      showScreen('screen-landing');
+    }
+  </script>
+</body>
+</html>
