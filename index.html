@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedi-Parent Alert - แบบระบบคัดกรองภาวะวิกฤตในผู้ป่วยเด็ก</title>
+  <title>Pedi-Parent-Alert - แบบคัดกรองภาวะวิกฤตในผู้ป่วยเด็กโดยผู้ปกครอง</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Mitr & Prompt -->
@@ -58,9 +58,9 @@
         </div>
 
         <h1 class="text-2xl font-bold bg-gradient-to-r from-sky-600 via-indigo-600 to-pink-500 bg-clip-text text-transparent">
-          Pedi-Parent Alert
+          Pedi-Parent-Alert
         </h1>
-        <p class="text-xs text-slate-500 font-medium mt-1">แบบคัดกรองภาวะวิกฤตด่วนเพื่อความปลอดภัยของลูกน้อย</p>
+        <p class="text-xs text-slate-500 font-medium mt-1">แบบคัดกรองภาวะวิกฤตในผู้ป่วยเด็กโดยผู้ปกครอง</p>
         <div class="inline-block bg-sky-50 text-sky-700 px-3.5 py-1 rounded-full text-[11px] font-medium mt-2 border border-sky-100 shadow-sm">
           📍 ห้องตรวจเด็กป่วยทั่วไปเบอร์ 28 โรงพยาบาลมหาราชนครเชียงใหม่
         </div>
@@ -83,7 +83,7 @@
       <div class="space-y-3">
         <div class="bg-amber-50/90 p-3 rounded-2xl border border-amber-200 text-xs text-amber-900 flex items-center gap-2.5 shadow-sm">
           <span class="text-lg">💡</span>
-          <p class="leading-tight font-light">ระบบจะแสดงคำถามทีละข้อพร้อมภาพตัวอย่าง ให้คุณพ่อคุณแม่สังเกตอาการน้องเทียบกับภาพ</p>
+            <p class="leading-tight font-light">ระบบจะแสดงคำถามทีละข้อพร้อมภาพตัวอย่าง</p>ให้คุณพ่อคุณแม่สังเกตอาการน้องเทียบกับภาพ
         </div>
         <button 
           onclick="startScreening()" 
@@ -127,17 +127,14 @@
         <div id="desc-box" class="p-3 rounded-2xl text-xs leading-relaxed border mb-1"></div>
       </div>
 
-      <!-- ปุ่มตอบ -->
+      <!-- ปุ่มตอบ (สลับตำแหน่ง: มีอาการอยู่ซ้าย, ไม่มีอาการอยู่ขวา) -->
       <div class="grid grid-cols-2 gap-3 mt-3">
-        <!-- ย้ายปุ่ม "มีอาการ" มาไว้ฝั่งซ้าย -->
         <button 
           id="btn-yes" 
           onclick="answerQuestion(true)" 
           class="py-3.5 text-white font-semibold rounded-2xl shadow-md transition active:scale-95 text-sm">
           ⚠️ มีอาการนี้
         </button>
-
-        <!-- ย้ายปุ่ม "ไม่มีอาการ" ไปไว้ฝั่งขวา -->
         <button 
           onclick="answerQuestion(false)" 
           class="py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-2xl transition active:scale-95 text-sm border border-slate-200">
@@ -184,19 +181,19 @@
       </button>
     </section>
 
-    <!-- 5. ผลลัพธ์: จอสีเขียว (Green Routine) -->
-    <section id="screen-green" class="p-6 flex-1 flex-col justify-between hidden">
-      <div class="my-auto text-center">
+    <!-- 5. ผลลัพธ์: จอสีเขียว (Green Routine - แก้ไขโครงสร้าง Flex เรียบร้อย) -->
+    <section id="screen-green" class="p-6 flex-1 flex flex-col justify-between hidden">
+      <div class="my-auto text-center flex flex-col items-center">
         <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 text-4xl shadow-inner border-2 border-emerald-200">
           🧸
         </div>
         <div class="inline-block bg-slate-100 text-slate-600 px-3.5 py-1 rounded-full text-xs font-bold mb-3 tracking-wider" id="display-hn-green"></div>
         
-        <h2 class="text-xl font-bold text-slate-800 mb-5">
+        <h2 class="text-xl font-bold text-slate-800 mb-5 leading-snug">
           ท่านสามารถนั่งรอเรียกวัดสัญญาณชีพได้ตามลำดับคิว
         </h2>
 
-        <div class="bg-emerald-50/70 border border-emerald-200 p-4 rounded-3xl text-left shadow-sm">
+        <div class="w-full bg-emerald-50/70 border border-emerald-200 p-4 rounded-3xl text-left shadow-sm">
           <p class="text-xs font-bold text-emerald-800 mb-1 flex items-center gap-1">
             <span>🌿</span> ข้อแนะนำด้านความปลอดภัย
           </p>
