@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedi-Parent-Alert - แบบคัดกรองภาวะวิกฤตในผู้ป่วยเด็กโดยผู้ปกครอง</title>
+  <title>Pedi-Parent Alert - แบบระบบคัดกรองภาวะวิกฤตในผู้ป่วยเด็ก</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Mitr & Prompt -->
@@ -58,9 +58,9 @@
         </div>
 
         <h1 class="text-2xl font-bold bg-gradient-to-r from-sky-600 via-indigo-600 to-pink-500 bg-clip-text text-transparent">
-          Pedi-Parent-Alert
+          Pedi-Parent Alert
         </h1>
-        <p class="text-xs text-slate-500 font-medium mt-1">แบบคัดกรองภาวะวิกฤตในผู้ป่วยเด็กโดยผู้ปกครอง</p>
+        <p class="text-xs text-slate-500 font-medium mt-1">แบบคัดกรองภาวะวิกฤตด่วนเพื่อความปลอดภัยของลูกน้อย</p>
         <div class="inline-block bg-sky-50 text-sky-700 px-3.5 py-1 rounded-full text-[11px] font-medium mt-2 border border-sky-100 shadow-sm">
           📍 ห้องตรวจเด็กป่วยทั่วไปเบอร์ 28 โรงพยาบาลมหาราชนครเชียงใหม่
         </div>
@@ -83,8 +83,8 @@
       <div class="space-y-3">
         <div class="bg-amber-50/90 p-3 rounded-2xl border border-amber-200 text-xs text-amber-900 flex items-center gap-2.5 shadow-sm">
           <span class="text-lg">💡</span>
-          <p class="leading-tight font-light">ระบบจะแสดงคำถามทีละข้อพร้อมภาพตัวอย่าง </p> ให้คุณพ่อคุณแม่สังเกตอาการน้องเทียบกับภาพ</p>
-          </div>
+          <p class="leading-tight font-light">ระบบจะแสดงคำถามทีละข้อพร้อมภาพตัวอย่าง ให้คุณพ่อคุณแม่สังเกตอาการน้องเทียบกับภาพ</p>
+        </div>
         <button 
           onclick="startScreening()" 
           class="w-full py-4 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 active:scale-[0.98] text-white font-semibold rounded-2xl shadow-lg shadow-sky-200 transition duration-200 text-lg flex items-center justify-center gap-2">
@@ -144,6 +144,7 @@
           ✓ ไม่มีอาการนี้
         </button>
       </div>
+    </section>
 
     <!-- 3. ผลลัพธ์: จอสีแดง (Red Alert) -->
     <section id="screen-red" class="p-6 flex-1 flex-col justify-between text-center bg-gradient-to-b from-rose-500 to-red-600 text-white hidden">
@@ -156,7 +157,7 @@
           กรุณาพาน้องพบเจ้าหน้าที่จุดที่ 1 เพื่อวัดสัญญาณชีพทันที
         </h2>
         <p class="text-xs text-rose-100 mt-4 px-4 bg-black/15 py-2.5 rounded-2xl leading-relaxed">
-          ระบบตรวจพบสัญญาณเตือนวิกฤต กรุณาติดต่อเจ้าหน้าที่จุดที่ 1 <br> โดยไม่ต้องรอคิว 
+          ระบบตรวจพบสัญญาณเตือนวิกฤต กรุณาติดต่อเจ้าหน้าที่จุดที่ 1 โดยไม่ต้องรอคิว
         </p>
       </div>
       <button onclick="resetApp()" class="w-full py-3.5 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-2xl transition">
@@ -172,10 +173,10 @@
         </div>
         <div class="bg-black/20 px-3.5 py-1 rounded-full text-xs font-semibold mb-4 tracking-wider" id="display-hn-orange"></div>
         <h2 class="text-2xl font-bold leading-snug px-1">
-          กรุณาสวมหน้ากากอนามัยทันที <br> และพาน้องพบเจ้าหน้าที่จุดที่ 1
+          กรุณาสวมหน้ากากอนามัยทันที และพาน้องพบเจ้าหน้าที่จุดที่ 1
         </h2>
         <p class="text-xs text-amber-100 mt-4 px-4 bg-black/15 py-2.5 rounded-2xl leading-relaxed">
-          ระบบตรวจพบอาการสงสัยโรคติดเชื้อที่จำเป็นต้องแยก <br> เพื่อความปลอดภัยของเด็กคนอื่น กรุณาแจ้งเจ้าหน้าที่จุดที่ 1
+          ระบบตรวจพบอาการสงสัยโรคติดเชื้อที่จำเป็นต้องแยก เพื่อความปลอดภัยของเด็กคนอื่น กรุณาแจ้งเจ้าหน้าที่จุดที่ 1
         </p>
       </div>
       <button onclick="resetApp()" class="w-full py-3.5 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-2xl transition">
@@ -200,7 +201,7 @@
             <span>🌿</span> ข้อแนะนำด้านความปลอดภัย
           </p>
           <p class="text-xs text-slate-600 leading-relaxed">
-            หากน้องมีอาการเปลี่ยนแปลงหรือแย่ลงระหว่างนั่งรอ <br> สามารถแจ้งเจ้าหน้าที่ได้ทันที
+            หากน้องมีอาการเปลี่ยนแปลงหรือแย่ลงระหว่างนั่งรอ สามารถแจ้งเจ้าหน้าที่ได้ทันที
           </p>
         </div>
       </div>
