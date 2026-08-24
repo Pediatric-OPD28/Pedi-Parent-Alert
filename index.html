@@ -238,6 +238,7 @@
         progress: "33%",
         title: "ตอนนี้น้องมีอาการ หายใจเหนื่อยหอบ ซี่โครงบุ๋ม หรือหายใจมีเสียงหวี๊ดหรือไม่?",
         icon: "🫁",
+        videoSrc: "symptom2.mp4", //
         mediaDesc: "เด็กหายใจปกติหน้าอกขยับเบาๆ VS เด็กหายใจหอบเร็ว อกและชายโครงยุบบุ๋มลึก ปีกจมูกบาน",
         descText: "💡 ให้ผู้ปกครองสังเกตจังหวะหายใจ ดูบริเวณหน้าอกและใต้ชายโครง จะเห็นรอยบุ๋มลึกชัดเจนขณะหายใจเข้า หรือมีเสียงหายใจดังหวี๊ด",
         themeColor: "red"
@@ -352,19 +353,24 @@
       document.getElementById('step-indicator').innerText = q.stepText;
       document.getElementById('desc-box').innerText = q.descText;
 
-      // จัดการแสดงผลรูปภาพ/วิดีโอ
+      // จัดการแสดงผลสื่อ (ภาพนิ่ง / วิดีโอ / Placeholder)
       const mediaContainer = document.getElementById('media-container');
-      if (q.imageSrc) {
-        // หากมีไฟล์รูปภาพ ให้แสดงภาพเต็มกรอบสวยงาม
+      if (q.videoSrc) {
+        // หากเป็นวิดีโอ ให้เล่นวนอัตโนมัติแบบปิดเสียง (เล่นบนมือถือได้ทันที)
         mediaContainer.innerHTML = `
-          <img src="${q.imageSrc}" alt="ตัวอย่างอาการ" class="w-full h-44 object-contain rounded-2xl bg-slate-900/50">
+          <video src="${q.videoSrc}" autoplay loop muted playsinline class="w-full h-44 object-cover rounded-2xl shadow-sm"></video>
+        `;
+      } else if (q.imageSrc) {
+        // หากเป็นรูปภาพ
+        mediaContainer.innerHTML = `
+          <img src="${q.imageSrc}" alt="ภาพตัวอย่างอาการ" class="w-full h-44 object-contain rounded-2xl">
         `;
       } else {
-        // หากยังไม่มีภาพ ให้แสดง Placeholder เดิม
+        // หากยังไม่มีสื่อ ให้แสดงการ์ตูน Placeholder
         mediaContainer.innerHTML = `
           <span class="text-4xl mb-1 float-anim">${q.icon}</span>
-          <span class="text-[11px] font-semibold text-amber-300 bg-black/40 px-3 py-0.5 rounded-full mb-1">ตัวอย่างภาพ/วิดีโอเปรียบเทียบ</span>
-          <p class="text-xs text-slate-200 px-2 font-light leading-relaxed">${q.mediaDesc}</p>
+          <span class="text-[11px] font-semibold text-amber-600 bg-amber-100 px-3 py-0.5 rounded-full mb-1">ตัวอย่างภาพเปรียบเทียบ</span>
+          <p class="text-xs text-slate-500 px-2 font-light leading-relaxed">${q.mediaDesc}</p>
         `;
       }
 
