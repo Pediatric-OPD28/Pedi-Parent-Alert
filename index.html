@@ -353,18 +353,32 @@
       document.getElementById('step-indicator').innerText = q.stepText;
       document.getElementById('desc-box').innerText = q.descText;
 
-      // จัดการแสดงผลสื่อ (ภาพนิ่ง / วิดีโอ / Placeholder)
+      // จัดการแสดงผลสื่อ (รองรับวิดีโอแนวตั้ง)
       const mediaContainer = document.getElementById('media-container');
       if (q.videoSrc) {
-        // หากเป็นวิดีโอ ให้เล่นวนอัตโนมัติแบบปิดเสียง (เล่นบนมือถือได้ทันที)
         mediaContainer.innerHTML = `
-          <video src="${q.videoSrc}" autoplay loop muted playsinline class="w-full h-44 object-cover rounded-2xl shadow-sm"></video>
+          <div class="w-full h-48 bg-slate-900 rounded-2xl flex items-center justify-center overflow-hidden shadow-inner">
+            <video 
+              src="${q.videoSrc}" 
+              autoplay 
+              loop 
+              muted 
+              playsinline 
+              class="h-full w-auto max-w-full object-contain rounded-xl">
+            </video>
+          </div>
         `;
       } else if (q.imageSrc) {
-        // หากเป็นรูปภาพ
         mediaContainer.innerHTML = `
           <img src="${q.imageSrc}" alt="ภาพตัวอย่างอาการ" class="w-full h-44 object-contain rounded-2xl">
         `;
+      } else {
+        mediaContainer.innerHTML = `
+          <span class="text-4xl mb-1 float-anim">${q.icon}</span>
+          <span class="text-[11px] font-semibold text-amber-600 bg-amber-100 px-3 py-0.5 rounded-full mb-1">ตัวอย่างภาพเปรียบเทียบ</span>
+          <p class="text-xs text-slate-500 px-2 font-light leading-relaxed">${q.mediaDesc}</p>
+        `;
+      }
       } else {
         // หากยังไม่มีสื่อ ให้แสดงการ์ตูน Placeholder
         mediaContainer.innerHTML = `
