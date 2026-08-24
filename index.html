@@ -225,6 +225,7 @@
         progress: "16%",
         title: "ตอนนี้น้องมีอาการ ซึม / ปลุกไม่ตื่น ริมฝีปากคล้ำ หรือตัวลายซีดหรือไม่?",
         icon: "😴",
+        imageSrc: "symptom1.png", //
         mediaDesc: "เด็กปกติเล่นสบตา ยิ้มแย้ม VS เด็กนอนซึมปลุกไม่ตื่น ปากเขียวคล้ำ ตัวลาย",
         descText: "💡 ให้ผู้ปกครองสังเกตความรู้สึกตัวและการสบตา ไม่ตอบสนองต่อการเรียกหรือกระตุ้น ริมฝีปากเป็นสีม่วงคล้ำ หรือผิวหนังซีดลายเป็นร่างแห",
         themeColor: "red"
@@ -349,9 +350,23 @@
       
       document.getElementById('q-title').innerText = q.title;
       document.getElementById('step-indicator').innerText = q.stepText;
-      document.getElementById('media-icon').innerText = q.icon;
-      document.getElementById('media-desc').innerText = q.mediaDesc;
       document.getElementById('desc-box').innerText = q.descText;
+
+      // จัดการแสดงผลรูปภาพ/วิดีโอ
+      const mediaContainer = document.getElementById('media-container');
+      if (q.imageSrc) {
+        // หากมีไฟล์รูปภาพ ให้แสดงภาพเต็มกรอบสวยงาม
+        mediaContainer.innerHTML = `
+          <img src="${q.imageSrc}" alt="ตัวอย่างอาการ" class="w-full h-44 object-contain rounded-2xl bg-slate-900/50">
+        `;
+      } else {
+        // หากยังไม่มีภาพ ให้แสดง Placeholder เดิม
+        mediaContainer.innerHTML = `
+          <span class="text-4xl mb-1 float-anim">${q.icon}</span>
+          <span class="text-[11px] font-semibold text-amber-300 bg-black/40 px-3 py-0.5 rounded-full mb-1">ตัวอย่างภาพ/วิดีโอเปรียบเทียบ</span>
+          <p class="text-xs text-slate-200 px-2 font-light leading-relaxed">${q.mediaDesc}</p>
+        `;
+      }
 
       const stageBadge = document.getElementById('stage-badge');
       stageBadge.innerText = q.stageName;
