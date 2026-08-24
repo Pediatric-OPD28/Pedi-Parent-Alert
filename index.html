@@ -40,7 +40,6 @@
         <div class="relative w-24 h-24 mx-auto mb-3">
           <div class="absolute inset-0 bg-gradient-to-tr from-sky-200 via-pink-200 to-amber-100 rounded-full blur-md opacity-75"></div>
           <div class="relative w-full h-full bg-gradient-to-b from-sky-100 to-white rounded-full flex items-center justify-center shadow-md border-2 border-white float-anim">
-            <!-- Cute Baby & Cross SVG -->
             <svg class="w-14 h-14" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="32" cy="30" r="18" fill="#FFDFC4"/>
               <ellipse cx="27" cy="28" rx="2" ry="3" fill="#4B382A"/>
@@ -80,7 +79,8 @@
         <p id="hn-error" class="text-pink-500 text-xs mt-2 text-center font-medium hidden">⚠️ กรุณากรอกหมายเลขโรงพยาบาลก่อนเริ่มคัดกรองนะคะ</p>
       </div>
 
-      <div class="bg-amber-50/90 py-3 px-4 rounded-2xl border border-amber-200 text-amber-900 flex items-center justify-center gap-2 shadow-sm text-center">
+      <div class="space-y-3">
+        <div class="bg-amber-50/90 py-3 px-4 rounded-2xl border border-amber-200 text-amber-900 flex items-center justify-center gap-2 shadow-sm text-center">
           <span class="text-base flex-shrink-0">💡</span>
           <span class="text-xs sm:text-sm font-bold tracking-tight">
             ระบบจะแสดงคำถามทีละข้อพร้อมภาพตัวอย่าง
@@ -116,11 +116,9 @@
         <h2 id="q-title" class="text-sm sm:text-base font-bold text-slate-800 leading-snug mb-3 min-h-[48px] flex items-center"></h2>
 
         <!-- กรอบแสดงสื่อภาพ/วิดีโอ -->
-        <div class="w-full bg-gradient-to-b from-slate-900 to-slate-800 rounded-3xl overflow-hidden relative shadow-inner mb-3 flex flex-col items-center justify-center min-h-[175px] border-2 border-white shadow-md">
-          <div id="media-container" class="w-full h-full p-4 flex flex-col items-center justify-center text-center">
-            <span id="media-icon" class="text-4xl mb-1 float-anim">🎬</span>
-            <span id="media-tag" class="text-[11px] font-semibold text-amber-300 bg-black/40 px-3 py-0.5 rounded-full mb-1">ตัวอย่างวิดีโอเปรียบเทียบ</span>
-            <p id="media-desc" class="text-xs text-slate-200 px-2 font-light leading-relaxed"></p>
+        <div class="w-full bg-slate-100 rounded-3xl overflow-hidden relative shadow-inner mb-3 flex flex-col items-center justify-center min-h-[185px] border-2 border-white shadow-md">
+          <div id="media-container" class="w-full h-full p-2 flex flex-col items-center justify-center text-center">
+            <!-- สื่อจะโหลดมาแสดงที่นี่ -->
           </div>
         </div>
 
@@ -128,7 +126,7 @@
         <div id="desc-box" class="p-3 rounded-2xl text-xs leading-relaxed border mb-1"></div>
       </div>
 
-      <!-- ปุ่มตอบ (สลับตำแหน่ง: มีอาการอยู่ซ้าย, ไม่มีอาการอยู่ขวา) -->
+      <!-- ปุ่มตอบ (มีอาการอยู่ซ้าย, ไม่มีอาการอยู่ขวา) -->
       <div class="grid grid-cols-2 gap-3 mt-3">
         <button 
           id="btn-yes" 
@@ -182,7 +180,7 @@
       </button>
     </section>
 
-    <!-- 5. ผลลัพธ์: จอสีเขียว (Green Routine - แก้ไขโครงสร้าง Flex เรียบร้อย) -->
+    <!-- 5. ผลลัพธ์: จอสีเขียว (Green Routine) -->
     <section id="screen-green" class="p-6 flex-1 flex flex-col justify-between hidden">
       <div class="my-auto text-center flex flex-col items-center">
         <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 text-4xl shadow-inner border-2 border-emerald-200">
@@ -225,7 +223,7 @@
         progress: "16%",
         title: "ตอนนี้น้องมีอาการ ซึม / ปลุกไม่ตื่น ริมฝีปากคล้ำ หรือตัวลายซีดหรือไม่?",
         icon: "😴",
-        imageSrc: "symptom1.png", // 
+        imageSrc: "symptom1.png",
         mediaDesc: "เด็กปกติเล่นสบตา ยิ้มแย้ม VS เด็กนอนซึมปลุกไม่ตื่น ปากเขียวคล้ำ ตัวลาย",
         descText: "💡 ให้ผู้ปกครองสังเกตความรู้สึกตัวและการสบตา ไม่ตอบสนองต่อการเรียกหรือกระตุ้น ริมฝีปากเป็นสีม่วงคล้ำ หรือผิวหนังซีดลายเป็นร่างแห",
         themeColor: "red"
@@ -238,7 +236,7 @@
         progress: "33%",
         title: "ตอนนี้น้องมีอาการ หายใจเหนื่อยหอบ ซี่โครงบุ๋ม หรือหายใจมีเสียงหวี๊ดหรือไม่?",
         icon: "🫁",
-        videoSrc: "symptom2.mp4", //
+        videoSrc: "symptom2.mp4",
         mediaDesc: "เด็กหายใจปกติหน้าอกขยับเบาๆ VS เด็กหายใจหอบเร็ว อกและชายโครงยุบบุ๋มลึก ปีกจมูกบาน",
         descText: "💡 ให้ผู้ปกครองสังเกตจังหวะหายใจ ดูบริเวณหน้าอกและใต้ชายโครง จะเห็นรอยบุ๋มลึกชัดเจนขณะหายใจเข้า หรือมีเสียงหายใจดังหวี๊ด",
         themeColor: "red"
@@ -353,7 +351,7 @@
       document.getElementById('step-indicator').innerText = q.stepText;
       document.getElementById('desc-box').innerText = q.descText;
 
-      // จัดการแสดงผลสื่อ (รองรับวิดีโอแนวตั้ง)
+      // จัดการแสดงผลสื่อ (วิดีโอ / ภาพนิ่ง / Placeholder)
       const mediaContainer = document.getElementById('media-container');
       if (q.videoSrc) {
         mediaContainer.innerHTML = `
