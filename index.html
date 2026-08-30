@@ -32,11 +32,10 @@
   <!-- กล่องแอปพลิเคชันหลัก -->
   <main class="w-full max-w-md bg-white/95 backdrop-blur-md rounded-[2.5rem] shadow-2xl shadow-sky-100/70 overflow-hidden border-2 border-white min-h-[640px] flex flex-col relative">
     
-    <!-- 1. หน้าแรก: กรอก HN (Cute Pastel Landing) -->
+    <!-- 1. หน้าแรก: กรอก HN -->
     <section id="screen-landing" class="p-6 flex-1 flex flex-col justify-between">
       <div class="text-center mt-3">
-        
-        <!-- Mascot Cartoon Header -->
+        <!-- Mascot Header -->
         <div class="relative w-24 h-24 mx-auto mb-3">
           <div class="absolute inset-0 bg-gradient-to-tr from-sky-200 via-pink-200 to-amber-100 rounded-full blur-md opacity-75"></div>
           <div class="relative w-full h-full bg-gradient-to-b from-sky-100 to-white rounded-full flex items-center justify-center shadow-md border-2 border-white float-anim">
@@ -74,7 +73,6 @@
           type="tel" 
           id="hn-input" 
           placeholder="เช่น 1234567" 
-          onkeydown="if(event.key === 'Enter') startScreening()"
           class="w-full px-4 py-3.5 text-2xl text-center font-bold tracking-widest text-slate-800 bg-white border-2 border-sky-200 rounded-2xl focus:outline-none focus:border-sky-400 focus:ring-4 focus:ring-sky-100 transition duration-200 shadow-sm placeholder:text-slate-300 placeholder:text-lg placeholder:font-normal"
         >
         <p id="hn-error" class="text-pink-500 text-xs mt-2 text-center font-medium hidden">⚠️ กรุณากรอกหมายเลขโรงพยาบาลก่อนเริ่มคัดกรองนะคะ</p>
@@ -89,7 +87,7 @@
         </div>
         <button 
           type="button"
-          onclick="startScreening()" 
+          id="btn-start"
           class="w-full py-4 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 active:scale-[0.98] text-white font-semibold rounded-2xl shadow-lg shadow-sky-200 transition duration-200 text-lg flex items-center justify-center gap-2 cursor-pointer">
           <span>เริ่มคัดกรองอาการ</span>
           <span class="text-xl">➔</span>
@@ -97,10 +95,9 @@
       </div>
     </section>
 
-    <!-- 2. หน้าจอคำถามรายข้อ (Question Flow Screen) -->
+    <!-- 2. หน้าจอคำถามรายข้อ -->
     <section id="screen-question" class="p-6 flex-1 flex-col justify-between hidden">
       <div>
-        <!-- Top Bar -->
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
           <div class="flex items-center gap-2">
             <span id="stage-badge" class="text-xs font-semibold px-3 py-1 rounded-full shadow-sm"></span>
@@ -109,44 +106,36 @@
           <span class="text-xs font-bold text-sky-700 bg-sky-50 border border-sky-100 px-3 py-1 rounded-full" id="display-hn"></span>
         </div>
 
-        <!-- Progress Bar -->
         <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-3 p-0.5 border border-slate-50">
           <div id="progress-bar" class="h-full transition-all duration-300 rounded-full" style="width: 16%;"></div>
         </div>
 
-        <!-- หัวข้อคำถาม -->
         <h2 id="q-title" class="text-sm sm:text-base font-bold text-slate-800 leading-snug mb-3 min-h-[48px] flex items-center"></h2>
 
-        <!-- กรอบแสดงสื่อภาพ/วิดีโอ -->
         <div class="w-full bg-slate-100 rounded-3xl overflow-hidden relative shadow-inner mb-3 flex flex-col items-center justify-center min-h-[185px] border-2 border-white shadow-md">
-          <div id="media-container" class="w-full h-full p-2 flex flex-col items-center justify-center text-center">
-            <!-- สื่อจะโหลดมาแสดงที่นี่ -->
-          </div>
+          <div id="media-container" class="w-full h-full p-2 flex flex-col items-center justify-center text-center"></div>
         </div>
 
-        <!-- กล่องคำอธิบายอาการ -->
         <div id="desc-box" class="p-3 rounded-2xl text-xs leading-relaxed border mb-1"></div>
       </div>
 
-      <!-- ปุ่มตอบ (มีอาการอยู่ซ้าย, ไม่มีอาการอยู่ขวา) -->
       <div class="grid grid-cols-2 gap-3 mt-3">
         <button 
           type="button"
           id="btn-yes" 
-          onclick="answerQuestion(true)" 
           class="py-3.5 text-white font-semibold rounded-2xl shadow-md transition active:scale-95 text-sm cursor-pointer">
           ⚠️ มีอาการนี้
         </button>
         <button 
           type="button"
-          onclick="answerQuestion(false)" 
+          id="btn-no"
           class="py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-2xl transition active:scale-95 text-sm border border-slate-200 cursor-pointer">
           ✓ ไม่มีอาการนี้
         </button>
       </div>
     </section>
 
-    <!-- 3. ผลลัพธ์: จอสีแดง (Red Alert) -->
+    <!-- 3. ผลลัพธ์: แดง -->
     <section id="screen-red" class="p-6 flex-1 flex-col justify-between text-center bg-gradient-to-b from-rose-500 to-red-600 text-white hidden">
       <div class="my-auto flex flex-col items-center">
         <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-4 emergency-pulse border-2 border-white/40">
@@ -160,12 +149,12 @@
           ระบบตรวจพบสัญญาณเตือนวิกฤต กรุณาติดต่อเจ้าหน้าที่จุดที่ 1 โดยไม่ต้องรอคิว
         </p>
       </div>
-      <button type="button" onclick="resetApp()" class="w-full py-3.5 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-2xl transition cursor-pointer">
+      <button type="button" class="btn-reset w-full py-3.5 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-2xl transition cursor-pointer">
         กลับสู่หน้าหลัก
       </button>
     </section>
 
-    <!-- 4. ผลลัพธ์: จอสีส้ม (Orange Isolation) -->
+    <!-- 4. ผลลัพธ์: ส้ม -->
     <section id="screen-orange" class="p-6 flex-1 flex-col justify-between text-center bg-gradient-to-b from-amber-400 to-orange-500 text-white hidden">
       <div class="my-auto flex flex-col items-center">
         <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-4 border-2 border-white/40 float-anim">
@@ -179,12 +168,12 @@
           ระบบตรวจพบอาการสงสัยโรคติดเชื้อที่จำเป็นต้องแยก เพื่อความปลอดภัยของเด็กคนอื่น กรุณาแจ้งเจ้าหน้าที่จุดที่ 1
         </p>
       </div>
-      <button type="button" onclick="resetApp()" class="w-full py-3.5 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-2xl transition cursor-pointer">
+      <button type="button" class="btn-reset w-full py-3.5 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-2xl transition cursor-pointer">
         กลับสู่หน้าหลัก
       </button>
     </section>
 
-    <!-- 5. ผลลัพธ์: จอสีเขียว (Green Routine) -->
+    <!-- 5. ผลลัพธ์: เขียว -->
     <section id="screen-green" class="p-6 flex-1 flex flex-col justify-between hidden">
       <div class="my-auto text-center flex flex-col items-center">
         <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 text-4xl shadow-inner border-2 border-emerald-200">
@@ -206,7 +195,7 @@
         </div>
       </div>
 
-      <button type="button" onclick="resetApp()" class="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold rounded-2xl transition shadow-lg shadow-emerald-100 mt-4 cursor-pointer">
+      <button type="button" class="btn-reset w-full py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold rounded-2xl transition shadow-lg shadow-emerald-100 mt-4 cursor-pointer">
         เสร็จสิ้น
       </button>
     </section>
@@ -217,11 +206,9 @@
     let patientHN = "";
     let currentStep = 0;
 
-    // URL Web App จาก Google Apps Script
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPcC_gSk0MlVExEKFifzYiYKnGrZhP9Eol5OzY49iY7wrQyOpmmlD7RL2cySFsbIygJQ/exec";
 
     const questions = [
-      // --- ด่านที่ 1: Red Flag ---
       {
         stage: 1,
         flagType: "RED",
@@ -261,8 +248,6 @@
         descText: "💡 ให้ผู้ปกครองสังเกตภาวะขาดน้ำรุนแรงจาก ท้องเสีย หรืออาเจียนหนัก น้องเพลียจัด เบ้าตาดูโหลลึก ร้องไห้ไม่มีน้ำตาและไม่ถ่ายปัสสาวะมานานกว่า 8 ชั่วโมง",
         themeColor: "red"
       },
-
-      // --- ด่านที่ 2: Orange Flag (Isolation) ---
       {
         stage: 2,
         flagType: "ORANGE",
@@ -322,7 +307,9 @@
 
     function playBeepSound() {
       try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const audioCtx = new AudioContext();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sine';
@@ -332,58 +319,56 @@
         osc.start();
         osc.stop(audioCtx.currentTime + 0.4);
       } catch (e) {
-        console.log("Audio requires user gesture");
+        // เงียบไว้ถ้าเบราว์เซอร์ไม่อนุญาต ไม่ให้กระทบ flow หลัก
       }
     }
 
     function sendDataToGoogleSheet(resultColor, stageName, symptomDetail) {
       if (!GOOGLE_SCRIPT_URL) return;
-      
-      const payload = {
-        hn: patientHN,
-        resultColor: resultColor,
-        stageName: stageName,
-        symptomDetail: symptomDetail
-      };
+      try {
+        const payload = {
+          hn: patientHN,
+          resultColor: resultColor,
+          stageName: stageName,
+          symptomDetail: symptomDetail
+        };
 
-      fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify(payload)
-      }).catch(err => console.log("Log error:", err));
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        }).catch(err => console.log("Log error:", err));
+      } catch (err) {
+        console.log("Send data error:", err);
+      }
     }
     
     function startScreening() {
-      try {
-        const input = document.getElementById('hn-input');
-        const errorMsg = document.getElementById('hn-error');
-        patientHN = input.value.trim();
+      const input = document.getElementById('hn-input');
+      const errorMsg = document.getElementById('hn-error');
+      patientHN = (input.value || "").trim();
 
-        if (!patientHN) {
-          errorMsg.classList.remove('hidden');
-          return;
-        }
-        errorMsg.classList.add('hidden');
-
-        document.getElementById('display-hn').innerText = `HN: ${patientHN}`;
-        ['display-hn-red', 'display-hn-orange', 'display-hn-green'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.innerText = `HN: ${patientHN}`;
-        });
-
-        currentStep = 0;
-        renderCurrentQuestion();
-        showScreen('screen-question');
-      } catch (err) {
-        alert("เกิดข้อผิดพลาด: " + err.message);
+      if (!patientHN) {
+        errorMsg.classList.remove('hidden');
+        return;
       }
+      errorMsg.classList.add('hidden');
+
+      document.getElementById('display-hn').innerText = `HN: ${patientHN}`;
+      ['display-hn-red', 'display-hn-orange', 'display-hn-green'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = `HN: ${patientHN}`;
+      });
+
+      currentStep = 0;
+      renderCurrentQuestion();
+      showScreen('screen-question');
     }
 
     function renderCurrentQuestion() {
       const q = questions[currentStep];
+      if (!q) return;
       
       document.getElementById('q-title').innerText = q.title;
       document.getElementById('step-indicator').innerText = q.stepText;
@@ -467,6 +452,27 @@
       currentStep = 0;
       showScreen('screen-landing');
     }
+
+    // ผูก Event Listener ให้ปุ่มทำงานแน่นอน
+    document.addEventListener("DOMContentLoaded", function() {
+      const btnStart = document.getElementById('btn-start');
+      const hnInput = document.getElementById('hn-input');
+      const btnYes = document.getElementById('btn-yes');
+      const btnNo = document.getElementById('btn-no');
+
+      if (btnStart) btnStart.addEventListener('click', startScreening);
+      if (hnInput) {
+        hnInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') startScreening();
+        });
+      }
+      if (btnYes) btnYes.addEventListener('click', function() { answerQuestion(true); });
+      if (btnNo) btnNo.addEventListener('click', function() { answerQuestion(false); });
+
+      document.querySelectorAll('.btn-reset').forEach(function(btn) {
+        btn.addEventListener('click', resetApp);
+      });
+    });
   </script>
 </body>
 </html>
