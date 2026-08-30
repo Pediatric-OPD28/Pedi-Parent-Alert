@@ -213,6 +213,9 @@
     let patientHN = "";
     let currentStep = 0;
 
+    // URL Web App จาก Google Apps Script
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPcC_gSk0MlVExEKFifzYiYKnGrZhP9Eol5OzY49iY7wrQyOpmmlD7RL2cySFsbIygJQ/exec";
+
     const questions = [
       // --- ด่านที่ 1: Red Flag ---
       {
@@ -328,7 +331,7 @@
     }
 
     function sendDataToGoogleSheet(resultColor, stageName, symptomDetail) {
-      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes(https://script.google.com/macros/s/AKfycbzPcC_gSk0MlVExEKFifzYiYKnGrZhP9Eol5OzY49iY7wrQyOpmmlD7RL2cySFsbIygJQ/exec)) return;
+      if (!GOOGLE_SCRIPT_URL) return;
       
       const payload = {
         hn: patientHN,
@@ -427,9 +430,11 @@
 
       if (hasSymptom) {
         if (q.flagType === "RED") {
+          sendDataToGoogleSheet("RED", q.stageName, q.title);
           playBeepSound();
           showScreen('screen-red');
         } else if (q.flagType === "ORANGE") {
+          sendDataToGoogleSheet("ORANGE", q.stageName, q.title);
           showScreen('screen-orange');
         }
         return;
@@ -439,6 +444,7 @@
       if (currentStep < questions.length) {
         renderCurrentQuestion();
       } else {
+        sendDataToGoogleSheet("GREEN", "คัดกรองครบ 6 ข้อ", "ไม่มีอาการผิดปกติ");
         showScreen('screen-green');
       }
     }
