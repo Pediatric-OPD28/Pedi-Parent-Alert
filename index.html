@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedi-Parent-Alert - แบบคัดกรองภาวะวิกฤตและโรคแยกกักในผู้ป่วยเด็กโดยผู้ปกครอง</title>
+  <title>Pedi-Parent-Alert</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Mitr & Prompt -->
@@ -33,9 +33,8 @@
   <main class="w-full max-w-md bg-white/95 backdrop-blur-md rounded-[2.5rem] shadow-2xl shadow-sky-100/70 overflow-hidden border-2 border-white min-h-[640px] flex flex-col relative">
     
     <!-- 1. หน้าแรก: กรอก HN -->
-    <section id="screen-landing" class="p-6 flex-1 flex flex-col justify-between">
+    <div id="screen-landing" class="p-6 flex-1 flex flex-col justify-between" style="display: flex;">
       <div class="text-center mt-3">
-        <!-- Mascot Header -->
         <div class="relative w-24 h-24 mx-auto mb-3">
           <div class="absolute inset-0 bg-gradient-to-tr from-sky-200 via-pink-200 to-amber-100 rounded-full blur-md opacity-75"></div>
           <div class="relative w-full h-full bg-gradient-to-b from-sky-100 to-white rounded-full flex items-center justify-center shadow-md border-2 border-white float-anim">
@@ -75,7 +74,7 @@
           placeholder="เช่น 1234567" 
           class="w-full px-4 py-3.5 text-2xl text-center font-bold tracking-widest text-slate-800 bg-white border-2 border-sky-200 rounded-2xl focus:outline-none focus:border-sky-400 focus:ring-4 focus:ring-sky-100 transition duration-200 shadow-sm placeholder:text-slate-300 placeholder:text-lg placeholder:font-normal"
         >
-        <p id="hn-error" class="text-pink-500 text-xs mt-2 text-center font-medium hidden">⚠️ กรุณากรอกหมายเลขโรงพยาบาลก่อนเริ่มคัดกรองนะคะ</p>
+        <p id="hn-error" class="text-pink-500 text-xs mt-2 text-center font-medium" style="display: none;">⚠️ กรุณากรอกหมายเลขโรงพยาบาลก่อนเริ่มคัดกรองนะคะ</p>
       </div>
 
       <div class="space-y-3">
@@ -87,16 +86,16 @@
         </div>
         <button 
           type="button"
-          id="btn-start"
+          onclick="startScreening()" 
           class="w-full py-4 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 active:scale-[0.98] text-white font-semibold rounded-2xl shadow-lg shadow-sky-200 transition duration-200 text-lg flex items-center justify-center gap-2 cursor-pointer">
           <span>เริ่มคัดกรองอาการ</span>
           <span class="text-xl">➔</span>
         </button>
       </div>
-    </section>
+    </div>
 
     <!-- 2. หน้าจอคำถามรายข้อ -->
-    <section id="screen-question" class="p-6 flex-1 flex-col justify-between hidden">
+    <div id="screen-question" class="p-6 flex-1 flex flex-col justify-between" style="display: none;">
       <div>
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
           <div class="flex items-center gap-2">
@@ -123,20 +122,22 @@
         <button 
           type="button"
           id="btn-yes" 
+          onclick="answerQuestion(true)" 
           class="py-3.5 text-white font-semibold rounded-2xl shadow-md transition active:scale-95 text-sm cursor-pointer">
           ⚠️ มีอาการนี้
         </button>
         <button 
           type="button"
           id="btn-no"
+          onclick="answerQuestion(false)" 
           class="py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-2xl transition active:scale-95 text-sm border border-slate-200 cursor-pointer">
           ✓ ไม่มีอาการนี้
         </button>
       </div>
-    </section>
+    </div>
 
-    <!-- 3. ผลลัพธ์: แดง -->
-    <section id="screen-red" class="p-6 flex-1 flex-col justify-between text-center bg-gradient-to-b from-rose-500 to-red-600 text-white hidden">
+    <!-- 3. ผลลัพธ์: จอสีแดง -->
+    <div id="screen-red" class="p-6 flex-1 flex flex-col justify-between text-center bg-gradient-to-b from-rose-500 to-red-600 text-white" style="display: none;">
       <div class="my-auto flex flex-col items-center">
         <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-4 emergency-pulse border-2 border-white/40">
           <span class="text-5xl">🚨</span>
@@ -149,13 +150,13 @@
           ระบบตรวจพบสัญญาณเตือนวิกฤต กรุณาติดต่อเจ้าหน้าที่จุดที่ 1 โดยไม่ต้องรอคิว
         </p>
       </div>
-      <button type="button" class="btn-reset w-full py-3.5 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-2xl transition cursor-pointer">
+      <button type="button" onclick="resetApp()" class="w-full py-3.5 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-2xl transition cursor-pointer">
         กลับสู่หน้าหลัก
       </button>
-    </section>
+    </div>
 
-    <!-- 4. ผลลัพธ์: ส้ม -->
-    <section id="screen-orange" class="p-6 flex-1 flex-col justify-between text-center bg-gradient-to-b from-amber-400 to-orange-500 text-white hidden">
+    <!-- 4. ผลลัพธ์: จอสีส้ม -->
+    <div id="screen-orange" class="p-6 flex-1 flex flex-col justify-between text-center bg-gradient-to-b from-amber-400 to-orange-500 text-white" style="display: none;">
       <div class="my-auto flex flex-col items-center">
         <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-4 border-2 border-white/40 float-anim">
           <span class="text-5xl">😷</span>
@@ -168,13 +169,13 @@
           ระบบตรวจพบอาการสงสัยโรคติดเชื้อที่จำเป็นต้องแยก เพื่อความปลอดภัยของเด็กคนอื่น กรุณาแจ้งเจ้าหน้าที่จุดที่ 1
         </p>
       </div>
-      <button type="button" class="btn-reset w-full py-3.5 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-2xl transition cursor-pointer">
+      <button type="button" onclick="resetApp()" class="w-full py-3.5 bg-white/20 hover:bg-white/30 text-white text-sm font-semibold rounded-2xl transition cursor-pointer">
         กลับสู่หน้าหลัก
       </button>
-    </section>
+    </div>
 
-    <!-- 5. ผลลัพธ์: เขียว -->
-    <section id="screen-green" class="p-6 flex-1 flex flex-col justify-between hidden">
+    <!-- 5. ผลลัพธ์: จอสีเขียว -->
+    <div id="screen-green" class="p-6 flex-1 flex flex-col justify-between" style="display: none;">
       <div class="my-auto text-center flex flex-col items-center">
         <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 text-4xl shadow-inner border-2 border-emerald-200">
           🧸
@@ -195,20 +196,20 @@
         </div>
       </div>
 
-      <button type="button" class="btn-reset w-full py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold rounded-2xl transition shadow-lg shadow-emerald-100 mt-4 cursor-pointer">
+      <button type="button" onclick="resetApp()" class="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold rounded-2xl transition shadow-lg shadow-emerald-100 mt-4 cursor-pointer">
         เสร็จสิ้น
       </button>
-    </section>
+    </div>
 
   </main>
 
   <script>
-    let patientHN = "";
-    let currentStep = 0;
+    var patientHN = "";
+    var currentStep = 0;
 
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPcC_gSk0MlVExEKFifzYiYKnGrZhP9Eol5OzY49iY7wrQyOpmmlD7RL2cySFsbIygJQ/exec";
+    var GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPcC_gSk0MlVExEKFifzYiYKnGrZhP9Eol5OzY49iY7wrQyOpmmlD7RL2cySFsbIygJQ/exec";
 
-    const questions = [
+    var questions = [
       {
         stage: 1,
         flagType: "RED",
@@ -290,76 +291,66 @@
     ];
 
     function showScreen(screenId) {
-      const screens = ['screen-landing', 'screen-question', 'screen-red', 'screen-orange', 'screen-green'];
-      screens.forEach(id => {
-        const el = document.getElementById(id);
+      var screens = ['screen-landing', 'screen-question', 'screen-red', 'screen-orange', 'screen-green'];
+      for (var i = 0; i < screens.length; i++) {
+        var el = document.getElementById(screens[i]);
         if (el) {
-          if (id === screenId) {
-            el.classList.remove('hidden');
-            el.classList.add('flex');
-          } else {
-            el.classList.add('hidden');
-            el.classList.remove('flex');
-          }
+          el.style.display = (screens[i] === screenId) ? 'flex' : 'none';
         }
-      });
+      }
     }
 
     function playBeepSound() {
       try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        var AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!AudioContext) return;
-        const audioCtx = new AudioContext();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        var audioCtx = new AudioContext();
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
         osc.type = 'sine';
         osc.frequency.setValueAtTime(800, audioCtx.currentTime);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
         osc.stop(audioCtx.currentTime + 0.4);
-      } catch (e) {
-        // เงียบไว้ถ้าเบราว์เซอร์ไม่อนุญาต ไม่ให้กระทบ flow หลัก
-      }
+      } catch (e) {}
     }
 
     function sendDataToGoogleSheet(resultColor, stageName, symptomDetail) {
       if (!GOOGLE_SCRIPT_URL) return;
       try {
-        const payload = {
+        var payload = {
           hn: patientHN,
           resultColor: resultColor,
           stageName: stageName,
           symptomDetail: symptomDetail
         };
-
         fetch(GOOGLE_SCRIPT_URL, {
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(payload)
-        }).catch(err => console.log("Log error:", err));
-      } catch (err) {
-        console.log("Send data error:", err);
-      }
+        }).catch(function(err) {});
+      } catch (err) {}
     }
     
     function startScreening() {
-      const input = document.getElementById('hn-input');
-      const errorMsg = document.getElementById('hn-error');
+      var input = document.getElementById('hn-input');
+      var errorMsg = document.getElementById('hn-error');
       patientHN = (input.value || "").trim();
 
       if (!patientHN) {
-        errorMsg.classList.remove('hidden');
+        if (errorMsg) errorMsg.style.display = 'block';
         return;
       }
-      errorMsg.classList.add('hidden');
+      if (errorMsg) errorMsg.style.display = 'none';
 
-      document.getElementById('display-hn').innerText = `HN: ${patientHN}`;
-      ['display-hn-red', 'display-hn-orange', 'display-hn-green'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerText = `HN: ${patientHN}`;
-      });
+      document.getElementById('display-hn').innerText = 'HN: ' + patientHN;
+      var hns = ['display-hn-red', 'display-hn-orange', 'display-hn-green'];
+      for (var i = 0; i < hns.length; i++) {
+        var el = document.getElementById(hns[i]);
+        if (el) el.innerText = 'HN: ' + patientHN;
+      }
 
       currentStep = 0;
       renderCurrentQuestion();
@@ -367,47 +358,36 @@
     }
 
     function renderCurrentQuestion() {
-      const q = questions[currentStep];
+      var q = questions[currentStep];
       if (!q) return;
       
       document.getElementById('q-title').innerText = q.title;
       document.getElementById('step-indicator').innerText = q.stepText;
       document.getElementById('desc-box').innerText = q.descText;
 
-      const mediaContainer = document.getElementById('media-container');
+      var mediaContainer = document.getElementById('media-container');
       if (q.videoSrc) {
-        mediaContainer.innerHTML = `
-          <div class="w-full h-48 bg-slate-900 rounded-2xl flex items-center justify-center overflow-hidden shadow-inner">
-            <video 
-              src="${q.videoSrc}" 
-              autoplay 
-              loop 
-              muted 
-              playsinline 
-              class="h-full w-auto max-w-full object-contain rounded-xl">
-            </video>
-          </div>
-        `;
+        mediaContainer.innerHTML = 
+          '<div class="w-full h-48 bg-slate-900 rounded-2xl flex items-center justify-center overflow-hidden shadow-inner">' +
+            '<video src="' + q.videoSrc + '" autoplay loop muted playsinline class="h-full w-auto max-w-full object-contain rounded-xl"></video>' +
+          '</div>';
       } else if (q.imageSrc) {
-        mediaContainer.innerHTML = `
-          <img src="${q.imageSrc}" alt="ภาพตัวอย่างอาการ" class="w-full h-44 object-contain rounded-2xl">
-        `;
+        mediaContainer.innerHTML = '<img src="' + q.imageSrc + '" alt="ภาพตัวอย่างอาการ" class="w-full h-44 object-contain rounded-2xl">';
       } else {
-        mediaContainer.innerHTML = `
-          <span class="text-4xl mb-1 float-anim">${q.icon}</span>
-          <span class="text-[11px] font-semibold text-amber-600 bg-amber-100 px-3 py-0.5 rounded-full mb-1">ตัวอย่างภาพเปรียบเทียบ</span>
-          <p class="text-xs text-slate-500 px-2 font-light leading-relaxed">${q.mediaDesc}</p>
-        `;
+        mediaContainer.innerHTML = 
+          '<span class="text-4xl mb-1 float-anim">' + q.icon + '</span>' +
+          '<span class="text-[11px] font-semibold text-amber-600 bg-amber-100 px-3 py-0.5 rounded-full mb-1">ตัวอย่างภาพเปรียบเทียบ</span>' +
+          '<p class="text-xs text-slate-500 px-2 font-light leading-relaxed">' + q.mediaDesc + '</p>';
       }
 
-      const stageBadge = document.getElementById('stage-badge');
+      var stageBadge = document.getElementById('stage-badge');
       stageBadge.innerText = q.stageName;
 
-      const pBar = document.getElementById('progress-bar');
+      var pBar = document.getElementById('progress-bar');
       pBar.style.width = q.progress;
 
-      const btnYes = document.getElementById('btn-yes');
-      const descBox = document.getElementById('desc-box');
+      var btnYes = document.getElementById('btn-yes');
+      var descBox = document.getElementById('desc-box');
 
       if (q.stage === 1) {
         stageBadge.className = "text-[11px] font-semibold px-3 py-1 rounded-full bg-rose-100 text-rose-700 border border-rose-200";
@@ -423,7 +403,7 @@
     }
 
     function answerQuestion(hasSymptom) {
-      const q = questions[currentStep];
+      var q = questions[currentStep];
 
       if (hasSymptom) {
         if (q.flagType === "RED") {
@@ -453,25 +433,14 @@
       showScreen('screen-landing');
     }
 
-    // ผูก Event Listener ให้ปุ่มทำงานแน่นอน
+    // จัดการ Event กด Enter บนช่อง HN
     document.addEventListener("DOMContentLoaded", function() {
-      const btnStart = document.getElementById('btn-start');
-      const hnInput = document.getElementById('hn-input');
-      const btnYes = document.getElementById('btn-yes');
-      const btnNo = document.getElementById('btn-no');
-
-      if (btnStart) btnStart.addEventListener('click', startScreening);
+      var hnInput = document.getElementById('hn-input');
       if (hnInput) {
         hnInput.addEventListener('keydown', function(e) {
           if (e.key === 'Enter') startScreening();
         });
       }
-      if (btnYes) btnYes.addEventListener('click', function() { answerQuestion(true); });
-      if (btnNo) btnNo.addEventListener('click', function() { answerQuestion(false); });
-
-      document.querySelectorAll('.btn-reset').forEach(function(btn) {
-        btn.addEventListener('click', resetApp);
-      });
     });
   </script>
 </body>
