@@ -327,6 +327,24 @@
       }
     }
 
+    function sendDataToGoogleSheet(resultColor, stageName, symptomDetail) {
+      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes(https://script.google.com/macros/s/AKfycbzPcC_gSk0MlVExEKFifzYiYKnGrZhP9Eol5OzY49iY7wrQyOpmmlD7RL2cySFsbIygJQ/exec)) return;
+      
+      const payload = {
+        hn: patientHN,
+        resultColor: resultColor,
+        stageName: stageName,
+        symptomDetail: symptomDetail
+      };
+
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }).catch(err => console.log("Log error:", err));
+    }
+    
     function startScreening() {
       const input = document.getElementById('hn-input');
       const errorMsg = document.getElementById('hn-error');
