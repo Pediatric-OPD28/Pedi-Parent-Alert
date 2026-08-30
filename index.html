@@ -338,20 +338,20 @@
    function sendDataToGoogleSheet(resultColor, stageName, symptomDetail) {
       if (!https://script.google.com/macros/s/AKfycbzPcC_gSk0MlVExEKFifzYiYKnGrZhP9Eol5OzY49iY7wrQyOpmmlD7RL2cySFsbIygJQ/exec) return;
       
-      // ส่งข้อมูลในรูปแบบ URLSearchParams (เข้า Google Sheets แน่นอน 100%)
-      const formData = new URLSearchParams();
-      formData.append("hn", patientHN);
-      formData.append("resultColor", resultColor);
-      formData.append("stageName", stageName);
-      formData.append("symptomDetail", symptomDetail);
+      const payload = {
+        hn: patientHN,
+        resultColor: resultColor,
+        stageName: stageName,
+        symptomDetail: symptomDetail
+      };
 
       fetch(https://script.google.com/macros/s/AKfycbzPcC_gSk0MlVExEKFifzYiYKnGrZhP9Eol5OzY49iY7wrQyOpmmlD7RL2cySFsbIygJQ/exec, {
         method: "POST",
         mode: "no-cors",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "text/plain;charset=utf-8"
         },
-        body: formData.toString()
+        body: JSON.stringify(payload)
       }).catch(err => console.log("Log error:", err));
     }
     
